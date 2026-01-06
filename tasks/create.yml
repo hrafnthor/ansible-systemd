@@ -1,0 +1,28 @@
+- name: "HTH | Systemd | Set unit file destination"
+  ansible.builtin.set_fact:
+    hth_systemd_unit_destination: "{{ unit.dest | default(hth_systemd_default_unit_file_destination) }}/{{ unit.name }}.{{ unit.kind }}"
+
+- name: "HTH | Systemd | Copy unit file"
+  ansible.builtin.copy:
+    src: "{{ unit.src }}"
+    dest: "{{ hth_systemd_unit_destination }}"
+    owner: "{{ unit.owner | default('root') }}"
+    group: "{{ unit.group | default('root') }}"
+    mode: "{{ unit.mode | default('0644') }}"
+  when:
+    - unit.vars is undefined
+    - unit.remove is undefined or not unit.remove
+
+- name: "HTH | Systemd | Template unit file"
+  ansible.builtin.template:
+    src: "{{ unit.src }}"
+    dest: "{{ hth_systemd_unit_destination }}"
+    owner: "{{ unit.owner | default('root') }}"
+    group: "{{ unit.group | default('root') }}"
+    mode: "{{ unit.mode | default('0644') }}"
+    validate: "systemd-analyze verify %s"
+  vars:
+    fields: "{{ unit.vars }}"
+  when:
+    - unit.vars is defined
+    - unit.remove is undefined or not unit.remove

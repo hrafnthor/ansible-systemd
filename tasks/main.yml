@@ -1,0 +1,23 @@
+- name: "HTH | Systemd | Assert input variables"
+  ansible.utils.validate:
+    data: "{{ systemd }}"
+    criteria: "{{ lookup('file', 'assertions/systemd-criteria.json') | from_json }}"
+    engine: ansible.utils.jsonschema
+  run_once: yes
+  delegate_to: localhost
+
+- name: "HTH | Systemd | Create units"
+  ansible.builtin.include_tasks: create.yml
+  loop: "{{ systemd.units }}"
+  loop_control:
+    loop_var: "unit"
+  when:
+    - systemd.units is defined
+
+- name: "HTH | Systemd | Manage units"
+  ansible.builtin.include_tasks: manage.yml
+  loop: "{{ systemd.units }}"
+  loop_control:
+    loop_var: "unit"
+  when:
+    - systemd.units is defined

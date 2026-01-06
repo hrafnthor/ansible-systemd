@@ -1,0 +1,9 @@
+- name: "HTH | Systemd | Set unit enabled state"
+  ansible.builtin.systemd_service:
+    name: "{{ unit.name }}"
+    enabled: "{{ false if unit.remove | default(false) else unit.enabled | default(false) }}"
+
+- name: "HTH | Systemd | Set unit current state"
+  ansible.builtin.systemd_service:
+    name: "{{ unit.name }}"
+    state: "{{ 'stopped' if unit.remove | default(false) else unit.state | default('stopped') }}"
