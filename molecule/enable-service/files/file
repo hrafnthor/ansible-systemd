@@ -1,0 +1,9 @@
+[Unit]
+Description="Idling service"
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c 'while :; do sleep 3600; done'
+
+[Install]
+WantedBy=multi-user.target

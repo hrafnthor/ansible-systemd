@@ -1,0 +1,7 @@
+systemd:
+  units:
+    - name: "testing"
+      kind: "service"
+      src: "molecule/enable-service/files/file"
+      state: "started"
+      enabled: true

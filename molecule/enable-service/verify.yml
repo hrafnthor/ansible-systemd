@@ -1,0 +1,17 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+
+  - name: Gather service facts
+    ansible.builtin.service_facts:
+
+  - name: Ensure service is enabled
+    fail:
+      msg: "Expected service to be enabled!"
+    when: ansible_facts.services['testing.service'].status != 'enabled'
+
+  - name: Ensure service is started or running
+    fail:
+      msg: "Expected service to be started or running!"
+    when: ansible_facts.services['testing.service'].state not in ['started', 'running']
