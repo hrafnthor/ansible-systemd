@@ -1,0 +1,8 @@
+systemd:
+  units:
+    - name: "testing"
+      kind: "service"
+      src: "molecule/create-template-service/templates/template"
+      vars:
+        description: "Do nothing service"
+        type: "oneshot"

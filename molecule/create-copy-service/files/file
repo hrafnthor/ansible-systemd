@@ -1,0 +1,9 @@
+[Unit]
+Description="A do nothing service"
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/true
+
+[Install]
+WantedBy=multi-user.target

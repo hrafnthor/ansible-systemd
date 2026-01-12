@@ -1,0 +1,2 @@
+# Default directory where unit files will be created
+hth_systemd_default_unit_file_destination: "/etc/systemd/system"

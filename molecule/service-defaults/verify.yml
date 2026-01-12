@@ -1,0 +1,17 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+
+  - name: Gather service facts
+    ansible.builtin.service_facts:
+
+  - name: Ensure service is disabled
+    fail:
+      msg: "Expected service to be disabled!"
+    when: ansible_facts.services['testing.service'].status != 'disabled'
+
+  - name: Ensure service is inactive
+    fail:
+      msg: "Expected service to be inactive!"
+    when: ansible_facts.services['testing.service'].state != 'inactive'

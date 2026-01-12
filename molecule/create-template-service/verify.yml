@@ -1,0 +1,13 @@
+---
+- name: Verify
+  hosts: all
+  tasks:
+  - name: Stat templated service file
+    ansible.builtin.stat:
+      path: "/etc/systemd/system/testing.service"
+    register: service_stat
+
+  - name: Ensure templated service file exists
+    fail:
+      msg: "Expected templated service file was not found!"
+    when: not service_stat.stat.exists
