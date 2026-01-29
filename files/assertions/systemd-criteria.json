@@ -114,6 +114,69 @@
                 "else":
                 {}
             }
+        },
+        "credentials":
+        {
+            "type": "array",
+            "items":
+            {
+                "type": "object",
+                "properties":
+                {
+                    "name":
+                    {
+                        "description": "The credential name to embed in the encrypted credential data. This will also be used as the name of the file containing the credential.",
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "not_after":
+                    {
+                        "description": "The time when the credential shall not be used anymore. Takes a timestamp specification in the format described in systemd.time(7).",
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "timestamp":
+                    {
+                        "description": "The timestamp to embed into the encrypted credential. Takes a timestamp specification in the format described in systemd.time(7).",
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "user":
+                    {
+                        "description": "A user name or numeric UID to encrypt the credential for. If set to the special string self it sets the user to the user of the calling process. Requires systemd 256 or later.",
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "value":
+                    {
+                        "description": "The credential value to set",
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "variable":
+                    {
+                        "description": "The name of the variable holding the credential value to set.",
+                        "$ref": "#/definitions/non-empty-string"
+                    },
+                    "remove":
+                    {
+                        "description": "Indicates if the file containing the encrypted credential should be removed. Defaults to false.",
+                        "type": "boolean"
+                    }
+                },
+                "oneOf":
+                [
+                    {
+                        "required":
+                        [
+                            "name",
+                            "value"
+                        ]
+                    },
+                    {
+                        "required":
+                        [
+                            "name",
+                            "variable"
+                        ]
+                    }
+                ]
+            }
         }
     },
     "definitions":
