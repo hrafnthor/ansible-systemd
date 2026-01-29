@@ -42,3 +42,6 @@ jobs:
 
     - name: "molecule | test unit file default state values"
       run: molecule  test --scenario-name service-defaults -- --extra-vars "@../../molecule/create-template-service/input-data.yml"
+
+    - name: "molecule | test credential encryption and file creation"
+      run: molecule  test --scenario-name credentials -- --extra-vars "@../../molecule/credentials/input-data.yml"

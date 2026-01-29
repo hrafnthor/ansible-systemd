@@ -6,6 +6,11 @@
   run_once: yes
   delegate_to: localhost
 
+- name: "HTH | Systemd | Manage credentials"
+  ansible.builtin.include_tasks: credentials/main.yml
+  when:
+    - systemd.credentials is defined
+
 - name: "HTH | Systemd | Create units"
   ansible.builtin.include_tasks: create.yml
   loop: "{{ systemd.units }}"
