@@ -9,6 +9,7 @@
     owner: "{{ unit.owner | default('root') }}"
     group: "{{ unit.group | default('root') }}"
     mode: "{{ unit.mode | default('0644') }}"
+  register: hth_systemd_unit_copy_result
   when:
     - unit.vars is undefined
     - unit.remove is undefined or not unit.remove
@@ -21,8 +22,16 @@
     group: "{{ unit.group | default('root') }}"
     mode: "{{ unit.mode | default('0644') }}"
     validate: "systemd-analyze verify %s"
+  register: hth_systemd_unit_template_result
   vars:
     fields: "{{ unit.vars }}"
   when:
     - unit.vars is defined
     - unit.remove is undefined or not unit.remove
+
+
+- name: "HTH | Systemd | Set unit file change latch"
+  ansible.builtin.set_fact:
+    hth_systemd_unit_files_changed: true
+  when:
+    - hth_systemd_unit_copy_result.changed or hth_systemd_unit_template_result.changed

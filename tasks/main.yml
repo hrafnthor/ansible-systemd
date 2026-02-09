@@ -19,6 +19,13 @@
   when:
     - systemd.units is defined
 
+- name: "HTH | Systemd | Reload systemd daemon"
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  when:
+    - hth_systemd_unit_files_changed is defined
+    - hth_systemd_unit_files_changed
+
 - name: "HTH | Systemd | Manage units"
   ansible.builtin.include_tasks: manage.yml
   loop: "{{ systemd.units }}"
