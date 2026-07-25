@@ -11,7 +11,28 @@
       msg: "Expected service to be enabled!"
     when: ansible_facts.services['testing.service'].status != 'enabled'
 
-  - name: Ensure service is started or running
-    fail:
-      msg: "Expected service to be started or running!"
-    when: ansible_facts.services['testing.service'].state not in ['started', 'running']
+  # - name: Ensure timer is enabled
+  #   fail:
+  #     msg: "Expected timer to be enabled!"
+  #   when: ansible_facts.services['testing.timer'].status != 'enabled'
+
+  # - name: Ensure timer is started or running
+  #   fail:
+  #     msg: "Expected timer to be started or running!"
+  #   when: ansible_facts.services['testing.timer'].state not in ['started', 'running']
+
+  - name: Gather timer unit state
+    ansible.builtin.systemd:
+      name: testing.timer
+    register: testing_timer
+    changed_when: false
+
+  - name: Ensure timer is enabled
+    ansible.builtin.fail:
+      msg: "Expected timer to be enabled!"
+    when: testing_timer.status.UnitFileState != 'enabled'
+
+  - name: Ensure timer is active
+    ansible.builtin.fail:
+      msg: "Expected timer to be active!"
+    when: testing_timer.status.ActiveState != 'active'

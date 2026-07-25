@@ -5,7 +5,7 @@ galaxy_info:
 
   license: Apache2
 
-  role_name: ansible_systemd
+  role_name: systemd
   namespace: hth
 
   min_ansible_version: 2.14

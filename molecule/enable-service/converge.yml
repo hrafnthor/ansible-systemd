@@ -4,4 +4,16 @@
   become: true
   gather_facts: true
   roles:
-  - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
+  - role: hth.systemd
+    vars:
+      systemd:
+        units:
+          - name: "testing"
+            kind: "service"
+            src: "molecule/enable-service/files/service"
+            enabled: true
+          - name: "testing"
+            kind: "timer"
+            src: "molecule/enable-service/files/timer"
+            state: "started"
+            enabled: true
