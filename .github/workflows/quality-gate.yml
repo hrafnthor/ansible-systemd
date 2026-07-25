@@ -45,3 +45,6 @@ jobs:
 
     - name: "molecule | test credential encryption and file creation"
       run: molecule  test --scenario-name credentials -- --extra-vars "@../../molecule/credentials/input-data.yml"
+
+    - name: "molecule | test service management"
+      run: molecule test --scenario-name enable-service

@@ -33,3 +33,7 @@ test-defaults:
 # Runs 'Molecule' test scenario for credential encryption
 test-credentials:
   @molecule test --scenario-name credentials -- --extra-vars "@input-data.yml"
+
+# Runs 'Molecule' test scenario for service enabling
+test-enable:
+  @molecule test --scenario-name enable-service
