@@ -1,5 +1,0 @@
-systemd:
-  units:
-    - name: "testing"
-      kind: "service"
-      src: "molecule/create-copy-service/files/file"

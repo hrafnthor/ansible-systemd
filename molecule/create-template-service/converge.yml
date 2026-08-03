@@ -4,4 +4,13 @@
   become: true
   gather_facts: true
   roles:
-  - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
+    - role: hth.systemd
+      vars:
+        systemd:
+          units:
+            - name: "testing"
+              kind: "service"
+              src: "molecule/create-template-service/templates/template"
+              vars:
+                description: "Do nothing service"
+                type: "oneshot"

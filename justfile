@@ -16,23 +16,23 @@ list:
 
 # Runs 'Molecule' test scenario for service templating
 test-template:
-  @molecule  test --scenario-name create-template-service -- --extra-vars "@input-data.yml"
+  @molecule  test --scenario-name create-template-service
 
 # Runs 'Molecule' test scenario for service copying
 test-copy:
-  @molecule  test --scenario-name create-copy-service -- --extra-vars "@input-data.yml"
+  @molecule  test --scenario-name create-copy-service
 
 # Runs 'Molecule' test scenario for service state configuration
 test-state:
-  @molecule  test --scenario-name enable-service -- --extra-vars "@input-data.yml"
+  @molecule  test --scenario-name enable-service
 
 # Runs 'Molecule' test scenario for service default state values
 test-defaults:
-  @molecule  test --scenario-name service-defaults -- --extra-vars "@input-data.yml"
+  @molecule  test --scenario-name service-defaults
 
 # Runs 'Molecule' test scenario for credential encryption
 test-credentials:
-  @molecule test --scenario-name credentials -- --extra-vars "@input-data.yml"
+  @molecule test --scenario-name credentials
 
 # Runs 'Molecule' test scenario for service enabling
 test-enable:

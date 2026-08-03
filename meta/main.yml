@@ -12,6 +12,10 @@ galaxy_info:
 
   platforms:
     - name: Ubuntu
+      versions:
+        - "26.04"
+        - "25.10"
+        - "24.04"
 
   galaxy_tags:
     - systemd
