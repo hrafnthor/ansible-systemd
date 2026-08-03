@@ -1,5 +1,0 @@
-systemd:
-  units:
-    - name: "testing"
-      kind: "service"
-      src: "molecule/service-defaults/files/file"

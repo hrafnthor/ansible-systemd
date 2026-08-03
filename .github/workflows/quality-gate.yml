@@ -32,16 +32,16 @@ jobs:
         pip install ansible ansible-lint molecule molecule-plugins[docker]
 
     - name: "molecule | test copied unit file creation"
-      run: molecule  test --scenario-name create-copy-service -- --extra-vars "@../../molecule/create-template-service/input-data.yml"
+      run: molecule  test --scenario-name create-copy-service
 
     - name: "molecule | test template unit file creation"
       run: molecule  test --scenario-name create-template-service
 
     - name: "molecule | test unit file default state values"
-      run: molecule  test --scenario-name service-defaults -- --extra-vars "@../../molecule/create-template-service/input-data.yml"
+      run: molecule  test --scenario-name service-defaults
 
     - name: "molecule | test credential encryption and file creation"
-      run: molecule  test --scenario-name credentials -- --extra-vars "@../../molecule/credentials/input-data.yml"
+      run: molecule  test --scenario-name credentials
 
     - name: "molecule | test service management"
       run: molecule test --scenario-name enable-service
