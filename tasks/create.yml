@@ -21,7 +21,7 @@
     owner: "{{ unit.owner | default('root') }}"
     group: "{{ unit.group | default('root') }}"
     mode: "{{ unit.mode | default('0644') }}"
-    validate: "systemd-analyze verify %s"
+    validate: "systemd-analyze verify %s:{{ hth_systemd_unit_destination | basename }}"
   register: hth_systemd_unit_template_result
   vars:
     fields: "{{ unit.vars }}"

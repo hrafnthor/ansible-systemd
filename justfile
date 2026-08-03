@@ -16,7 +16,7 @@ list:
 
 # Runs 'Molecule' test scenario for service templating
 test-template:
-  @molecule  test --scenario-name create-template-service -- --extra-vars "@input-data.yml"
+  @molecule  test --scenario-name create-template-service
 
 # Runs 'Molecule' test scenario for service copying
 test-copy:

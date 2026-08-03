@@ -35,10 +35,7 @@ jobs:
       run: molecule  test --scenario-name create-copy-service -- --extra-vars "@../../molecule/create-template-service/input-data.yml"
 
     - name: "molecule | test template unit file creation"
-      run: molecule  test --scenario-name create-template-service -- --extra-vars "@../../molecule/create-template-service/input-data.yml"
-
-    - name: "molecule | test unit file state change"
-      run: molecule  test --scenario-name create-template-service -- --extra-vars "@../../molecule/create-template-service/input-data.yml"
+      run: molecule  test --scenario-name create-template-service
 
     - name: "molecule | test unit file default state values"
       run: molecule  test --scenario-name service-defaults -- --extra-vars "@../../molecule/create-template-service/input-data.yml"
