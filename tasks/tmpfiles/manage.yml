@@ -1,0 +1,86 @@
+- name: "HTH | Systemd | TmpFiles | Set config path"
+  ansible.builtin.set_fact:
+    hth_systemd_tmpfile_config_path: "{{ file.path | default(hth_systemd_default_tmpfiles_config_path) }}/{{ file.name }}"
+
+- name: "HTH | Systemd | TmpFiles | Create config directory"
+  ansible.builtin.file:
+    path: "{{ hth_systemd_tmpfile_config_path | dirname }}"
+    state: directory
+    owner: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    group: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    mode: "0755"
+
+- name: "HTH | Systemd | TmpFiles | Create config"
+  ansible.builtin.blockinfile:
+    path: "{{ hth_systemd_tmpfile_config_path }}"
+    create: yes
+    owner: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    group: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    mode: "0644"
+    marker: "# {mark} MANAGED BY ANSIBLE"
+    block: "{{ file.content }}"
+  register: hth_systemd_raw_config
+  when:
+    - file.remove is undefined or not file.remove
+    - file.content_type == 'raw'
+
+- name: "HTH | Systemd | TmpFiles | Copy config"
+  ansible.builtin.copy:
+    src: "{{ file.content }}"
+    dest: "{{ hth_systemd_tmpfile_config_path }}"
+    owner: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    group: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    mode: "0644"
+  register: hth_systemd_copy_config
+  when:
+    - file.remove is undefined or not file.remove
+    - file.content_type == 'file'
+
+- name: "HTH | Systemd | TmpFiles | Template config"
+  ansible.builtin.template:
+    src: "{{ file.content }}"
+    dest: "{{ hth_systemd_tmpfile_config_path }}"
+    owner: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    group: "{{ hth_systemd_default_tmpfiles_config_owner }}"
+    mode: "0644"
+  register: hth_systemd_template_config
+  when:
+    - file.remove is undefined or not file.remove
+    - file.content_type == 'template'
+
+- name: "HTH | Systemd | TmpFiles | Set config changed"
+  ansible.builtin.set_fact:
+    hth_systemd_config_changed: "{{ hth_systemd_raw_config is changed or hth_systemd_copy_config is changed or hth_systemd_template_config is changed }}"
+
+- name: "HTH | Systemd | TmpFiles | Check config exists"
+  ansible.builtin.stat:
+    path: "{{ hth_systemd_tmpfile_config_path }}"
+  register: hth_systemd_config_stat
+
+- name: "HTH | Systemd | TmpFiles | Run config (systemd >= 256)"
+  ansible.builtin.command:
+    argv: "{{ ['systemd-tmpfiles'] + file.actions | map('regex_replace', '^', '--') | list + (['--dry-run'] if file.dry_run | default(false) else []) + [hth_systemd_tmpfile_config_path] }}"
+  changed_when: not (file.dry_run | default(false))
+  when:
+    - hth_systemd_config_stat.stat.exists
+    - file.actions is defined
+    - hth_systemd_major_version | int >=256
+    - hth_systemd_config_changed | bool or (file.remove | default(false) and file.run_actions_on_remove | default(false))
+
+- name: "HTH | Systemd | TmpFiles | Run config (systemd <= 255)"
+  ansible.builtin.command:
+    argv: "{{ ['systemd-tmpfiles'] + file.actions | difference(['purge']) | map('regex_replace', '^', '--') | list + [hth_systemd_tmpfile_config_path] }}"
+  changed_when: true
+  when:
+    - hth_systemd_config_stat.stat.exists
+    - file.actions is defined
+    - hth_systemd_major_version | int <= 255
+    - not (file.dry_run | default(false))
+    - file.actions | difference(['purge']) | length > 0
+    - hth_systemd_config_changed | bool or (file.remove | default(false) and file.run_actions_on_remove | default(false))
+
+- name: "HTH | Systemd | TmpFiles | Remove config"
+  ansible.builtin.file:
+    path: "{{ hth_systemd_tmpfile_config_path }}"
+    state: absent
+  when: file.remove | default(false)

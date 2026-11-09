@@ -45,3 +45,6 @@ jobs:
 
     - name: "molecule | test service management"
       run: molecule test --scenario-name service-enable -- -vv
+
+    - name: "molecule | test tmpfile creation"
+      run: molecule test --scenario-name tmpfiles-create -- -vv

@@ -33,3 +33,7 @@ test-service-defaults:
 # Runs 'Molecule' test scenario for service enabling
 test-service-enable:
   @molecule test --scenario-name service-enable -- -vv
+
+# Runs 'Molecule' test scenario for creating tmpfiles
+test-tmpfiles-create:
+  @molecule test --scenario-name tmpfiles-create -- -vv

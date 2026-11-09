@@ -6,6 +6,17 @@
   run_once: yes
   delegate_to: localhost
 
+- name: "HTH | Systemd | Get systemd version"
+  ansible.builtin.command:
+    argv: [systemctl, --version]
+  register: hth_systemd_version
+  changed_when: false
+  check_mode: false
+
+- name: "HTH | Systemd | Get systemd major version"
+  ansible.builtin.set_fact:
+    hth_systemd_major_version:  "{{ hth_systemd_version.stdout | regex_search('^systemd (\\d+)', '\\1') | first | int }}"
+
 - name: "HTH | Systemd | Manage credentials"
   ansible.builtin.include_tasks: credentials/main.yml
   when: systemd.credentials is defined
@@ -13,6 +24,10 @@
 - name: "HTH | Systemd | Manage units"
   ansible.builtin.include_tasks: units/main.yml
   when: systemd.units is defined
+
+- name: "HTH | Systemd | Manage tmpfiles"
+  ansible.builtin.include_tasks: tmpfiles/main.yml
+  when: systemd.tmpfiles is defined
 
 - name: "HTH | Systemd | Reload systemd daemon"
   ansible.builtin.systemd_service:

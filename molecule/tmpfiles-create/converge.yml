@@ -1,0 +1,33 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - role: hth.systemd
+      vars:
+        systemd:
+          tmpfiles:
+            - name: "file"
+              actions:
+                - create
+              content_type: file
+              content: tmpfile
+            - name: "template"
+              actions:
+                - create
+              content_type: template
+              content: template
+            - name: "raw"
+              actions:
+                - create
+              content_type: raw
+              content: |
+                d /tmp/hth-systemd-raw-test
+            - name: "dry-run"
+              dry_run: true
+              actions:
+                - create
+              content_type: raw
+              content: |
+                d /tmp/hth-systemd-dry-run-test
