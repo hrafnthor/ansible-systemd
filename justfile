@@ -14,26 +14,22 @@ default:
 list:
     @just -l
 
-# Runs 'Molecule' test scenario for service templating
-test-template:
-  @molecule  test --scenario-name create-template-service
-
-# Runs 'Molecule' test scenario for service copying
-test-copy:
-  @molecule  test --scenario-name create-copy-service
-
-# Runs 'Molecule' test scenario for service state configuration
-test-state:
-  @molecule  test --scenario-name enable-service
-
-# Runs 'Molecule' test scenario for service default state values
-test-defaults:
-  @molecule  test --scenario-name service-defaults
-
 # Runs 'Molecule' test scenario for credential encryption
 test-credentials:
-  @molecule test --scenario-name credentials
+  @molecule test --scenario-name credentials -- -vv
+
+# Runs 'Molecule' test scenario for service templating
+test-service-template:
+  @molecule  test --scenario-name service-create-template -- -vv
+
+# Runs 'Molecule' test scenario for service copying
+test-service-copy:
+  @molecule  test --scenario-name service-create-copy -- -vv
+
+# Runs 'Molecule' test scenario for service default state values
+test-service-defaults:
+  @molecule  test --scenario-name service-defaults -- -vv
 
 # Runs 'Molecule' test scenario for service enabling
-test-enable:
-  @molecule test --scenario-name enable-service
+test-service-enable:
+  @molecule test --scenario-name service-enable -- -vv

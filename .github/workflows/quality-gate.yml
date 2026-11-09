@@ -31,17 +31,17 @@ jobs:
         pip install -U pip setuptools wheel
         pip install ansible ansible-lint molecule molecule-plugins[docker]
 
+    - name: "molecule | test credential encryption and file creation"
+      run: molecule  test --scenario-name credentials -- -vv
+
     - name: "molecule | test copied unit file creation"
-      run: molecule  test --scenario-name create-copy-service
+      run: molecule  test --scenario-name service-create-copy -- -vv
 
     - name: "molecule | test template unit file creation"
-      run: molecule  test --scenario-name create-template-service
+      run: molecule  test --scenario-name service-create-template -- -vv
 
     - name: "molecule | test unit file default state values"
-      run: molecule  test --scenario-name service-defaults
-
-    - name: "molecule | test credential encryption and file creation"
-      run: molecule  test --scenario-name credentials
+      run: molecule  test --scenario-name service-defaults -- -vv
 
     - name: "molecule | test service management"
-      run: molecule test --scenario-name enable-service
+      run: molecule test --scenario-name service-enable -- -vv
