@@ -1,0 +1,5 @@
+- name: "HTH | Systemd | TmpFiles | Manage file"
+  ansible.builtin.include_tasks: manage.yml
+  loop: "{{ systemd.tmpfiles }}"
+  loop_control:
+    loop_var: "file"

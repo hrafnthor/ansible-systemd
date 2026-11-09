@@ -10,4 +10,4 @@
         units:
           - name: "testing"
             kind: "service"
-            src: "molecule/create-copy-service/files/file"
+            src: "molecule/service-create-copy/files/file"

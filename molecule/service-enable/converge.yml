@@ -10,10 +10,10 @@
         units:
           - name: "testing"
             kind: "service"
-            src: "molecule/enable-service/files/service"
+            src: "molecule/service-enable/files/service"
             enabled: true
           - name: "testing"
             kind: "timer"
-            src: "molecule/enable-service/files/timer"
+            src: "molecule/service-enable/files/timer"
             state: "started"
             enabled: true

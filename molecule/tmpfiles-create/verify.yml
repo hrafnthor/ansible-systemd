@@ -1,0 +1,69 @@
+---
+- name: Verify
+  hosts: all
+  vars_files:
+    - "../../defaults/main.yml"
+  tasks:
+
+  - name: Gather service facts
+    ansible.builtin.service_facts:
+
+  - name: Stat raw config file
+    ansible.builtin.stat:
+      path: "{{ hth_systemd_default_tmpfiles_config_path }}/raw"
+    register: raw_config
+
+  - name: Ensure raw config file exists
+    fail:
+      msg: "Expected raw tmpfile config file was not found!"
+    when: not raw_config.stat.exists
+
+  - name: Stat tmpfile dir from raw config file
+    ansible.builtin.stat:
+      path: "/tmp/hth-systemd-raw-test"
+    register: raw_dir_config
+
+  - name: Ensure raw tmpfile dir exists
+    fail:
+      msg: "Expected raw tmpfile dir was not found!"
+    when: not raw_dir_config.stat.exists
+
+  - name: Stat copy config file
+    ansible.builtin.stat:
+      path: "{{ hth_systemd_default_tmpfiles_config_path }}/file"
+    register: copy_config
+
+  - name: Ensure copy config file exists
+    fail:
+      msg: "Expected copied tmpfile config file was not found!"
+    when: not copy_config.stat.exists
+
+  - name: Stat tmpfile dir from copy config file
+    ansible.builtin.stat:
+      path: "/tmp/hth-systemd-file-test"
+    register: file_dir_config
+
+  - name: Ensure copy tmpfile dir exists
+    fail:
+      msg: "Expected copy tmpfile dir was not found!"
+    when: not file_dir_config.stat.exists
+
+  - name: Stat template config file
+    ansible.builtin.stat:
+      path: "{{ hth_systemd_default_tmpfiles_config_path }}/template"
+    register: template_config
+
+  - name: Ensure template config file exists
+    fail:
+      msg: "Expected template tmpfile config file was not found!"
+    when: not template_config.stat.exists
+
+  - name: Stat tmpfile dir from template config file
+    ansible.builtin.stat:
+      path: "/tmp/hth-systemd-template-test"
+    register: template_dir_config
+
+  - name: Ensure template tmpfile dir exists
+    fail:
+      msg: "Expected template tmpfile dir was not found!"
+    when: not template_dir_config.stat.exists

@@ -1,0 +1,5 @@
+- name: "HTH | Systemd | Manage units"
+  ansible.builtin.include_tasks: manage.yml
+  loop: "{{ systemd.units }}"
+  loop_control:
+    loop_var: "unit"

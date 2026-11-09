@@ -1,2 +1,8 @@
 # Default directory where unit files will be created
 hth_systemd_default_unit_file_destination: "/etc/systemd/system"
+
+# Default path to where tmpfile configs will be placed
+hth_systemd_default_tmpfiles_config_path: "/etc/tmpfiles.d"
+
+# Default owner of tmpfile configs
+hth_systemd_default_tmpfiles_config_owner: root
