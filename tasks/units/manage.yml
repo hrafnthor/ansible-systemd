@@ -29,7 +29,6 @@
     - unit.vars is defined
     - unit.remove is undefined or not unit.remove
 
-
 - name: "HTH | Systemd | Set unit file change latch"
   ansible.builtin.set_fact:
     hth_systemd_unit_files_changed: true
